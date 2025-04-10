@@ -1,0 +1,89 @@
+header {
+    background-color: rgb(60, 249, 255);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: auto;
+    margin: 10px auto;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 1);
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    margin-top: 10px;
+    background-color: rgb(60, 249, 255);
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    max-width: auto;
+    margin-top: 10px;
+    margin: 10px auto;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 1);
+    position: static !important;
+    overflow: visible !important;
+}
+
+.area-lista {
+    flex: 1;
+    margin: 5px;
+    position: static !important;
+    overflow: visible !important;
+}
+
+h2 {
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px 0px;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 1);
+}
+
+.divisoria {
+    background-color: rgb(255, 255, 255);
+    padding: 2px;
+    margin: 20px 0px;
+}
+
+li {
+    list-style-type: none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.lista {
+    border: 2px;
+    padding: 10px;
+    min-width: 300px;
+    min-height: 300px;
+    position: static !important;
+    overflow: visible !important;
+    /* background-color: #f9f9f9; */
+  }
+
+.cdk-drag-preview {
+    opacity: 0.5; /* Opacidade do card durante o arraste */
+  }
+  
+.cdk-drag-placeholder {
+  opacity: 0; /* Esconde o card original durante o arraste */
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); /* Animação ao soltar */
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); /* Animação ao arrastar */
+}
+
+.disable-drag .cdk-drag {
+  pointer-events: none;
+}

@@ -1,0 +1,15 @@
+<li class="card">
+    <div class="card-head">
+        <h3 class="card-titulo">{{titulo}}</h3>
+    </div>
+    <p class="card-descricao">{{descricao}}</p>
+    <p>Data: {{data}}</p>
+    <div class="card-controle">
+        <button class="card-btn" style="left: 90%;" (click)="onEdit()">
+            <i class="material-icons">edit</i>
+        </button>
+        <button class="card-btn" (click)="onDelete()">
+            <i class="material-icons">delete</i>
+        </button>
+    </div>
+</li>

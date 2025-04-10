@@ -1,0 +1,10 @@
+.cdk-overlay-container {
+    position: fixed !important;
+    z-index: 10000 !important;
+  }
+  
+  .cdk-overlay-backdrop {
+    z-index: 9999 !important;
+    background: rgba(0, 0, 0, 0.5) !important; /* Deixa o fundo escurecido */
+  }
+  
