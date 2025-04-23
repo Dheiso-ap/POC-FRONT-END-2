@@ -15,7 +15,7 @@ export class CardsComponent {
   @Output() delete = new EventEmitter<void>();
 
   onEdit() {
-    this.edit.emit
+    this.edit.emit();
   }
 
   onDelete() {

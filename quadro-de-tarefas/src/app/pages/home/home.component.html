@@ -70,10 +70,4 @@
 
 <footer>
   <button mat-raised-button color="primary" (click)="openForm()">Adicionar Novo Card</button>
-  
-  <app-formulario
-      *ngIf="showForm"
-      [card]="selectedCard"
-      (formSubmit)="handleFormSubmit($event)">
-  </app-formulario>
 </footer>

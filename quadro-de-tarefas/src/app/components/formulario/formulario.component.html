@@ -1,46 +1,56 @@
-<form [formGroup]="cardForm" (ngSubmit)="onSubmit()" class="card-form">
+<div class="card-form-dialog">
+  <h2 class="dialog-title">{{ isEditMode ? 'Editar Card' : 'Novo Card' }}</h2>
+
+  <form [formGroup]="cardForm" (ngSubmit)="onSubmit()" class="card-form">
     <div class="form-group">
       <label for="titulo">Título *</label>
-      <input 
-        type="text" 
-        id="titulo" 
-        formControlName="titulo" 
+      <input
+        type="text"
+        id="titulo"
+        formControlName="titulo"
         class="form-control"
         placeholder="Digite o título">
-      <div *ngIf="cardForm.get('titulo')?.invalid && cardForm.get('titulo')?.touched" class="error-message">
+      <div *ngIf="cardForm.get('titulo')?.invalid && (cardForm.get('titulo')?.touched || cardForm.get('titulo')?.dirty)"
+           class="error-message">
         <span *ngIf="cardForm.get('titulo')?.errors?.['required']">Título é obrigatório</span>
         <span *ngIf="cardForm.get('titulo')?.errors?.['maxlength']">Máximo de 50 caracteres</span>
       </div>
     </div>
-  
+
     <div class="form-group">
       <label for="descricao">Descrição *</label>
-      <textarea 
-        id="descricao" 
-        formControlName="descricao" 
+      <textarea
+        id="descricao"
+        formControlName="descricao"
         class="form-control"
         rows="3"
         placeholder="Digite a descrição"></textarea>
-      <div *ngIf="cardForm.get('descricao')?.invalid && cardForm.get('descricao')?.touched" class="error-message">
+      <div *ngIf="cardForm.get('descricao')?.invalid && (cardForm.get('descricao')?.touched || cardForm.get('descricao')?.dirty)"
+           class="error-message">
         <span *ngIf="cardForm.get('descricao')?.errors?.['required']">Descrição é obrigatória</span>
         <span *ngIf="cardForm.get('descricao')?.errors?.['maxlength']">Máximo de 200 caracteres</span>
       </div>
     </div>
-  
 
     <div class="form-group">
-        <label for="date">Data</label>
-        <input
-          type="date"
-          id="date"
-          formControlName="date"
-          class="form-control"
-        >
+      <label for="data">Data *</label>
+      <input
+        type="date"
+        id="data"
+        formControlName="data"
+        class="form-control"
+      >
+      <div *ngIf="cardForm.get('data')?.invalid && (cardForm.get('data')?.touched || cardForm.get('data')?.dirty)"
+           class="error-message">
+        <span *ngIf="cardForm.get('data')?.errors?.['required']">Data é obrigatória</span>
       </div>
-  
+    </div>
+
     <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
       <button type="submit" class="btn btn-primary" [disabled]="cardForm.invalid">
-        {{ card ? 'Atualizar' : 'Adicionar' }}
+        {{ isEditMode ? 'Atualizar' : 'Adicionar' }}
       </button>
     </div>
   </form>
+</div>

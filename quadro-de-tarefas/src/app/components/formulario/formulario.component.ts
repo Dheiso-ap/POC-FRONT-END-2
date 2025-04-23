@@ -1,47 +1,58 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Card } from '../../models/card.interface';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-formulario',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   templateUrl: './formulario.component.html',
-  styleUrl: './formulario.component.css'
+  styleUrls: ['./formulario.component.css']
 })
 export class FormularioComponent {
-  @Input() card: Card | null = null;
-  @Output() formSubmit = new EventEmitter<Card>();
-
   cardForm: FormGroup;
+  isEditMode: boolean;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<FormularioComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { card: Card | null }
+  ) {
+    this.isEditMode = !!data.card;
+
     this.cardForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.maxLength(50)]],
-      descricao: ['', [Validators.required, Validators.maxLength(200)]],
-      data: ['', [Validators.required]]
+      titulo: [data.card?.titulo || '', [Validators.required, Validators.maxLength(50)]],
+      descricao: [data.card?.descricao || '', [Validators.required, Validators.maxLength(200)]],
+      data: [data.card?.data || '', Validators.required]
     });
-  }
-
-  ngOnInit() {
-    if (this.card) {
-      // Converte a string para Date se necessário
-      const dateValue = this.card.data ? new Date(this.card.data) : null;
-      this.cardForm.patchValue({
-        ...this.card,
-        date: dateValue
-      });
-    }
   }
 
   onSubmit(): void {
     if (this.cardForm.valid) {
       const formValue = this.cardForm.value;
-      // Se estiver editando, mantém o ID
-      const cardData = this.card ? { ...formValue, id: this.card.id } : formValue;
-      this.formSubmit.emit(cardData);
+      const cardData = this.data.card
+        ? { ...formValue, id: this.data.card.id }
+        : formValue;
+
+      this.dialogRef.close(cardData);
     }
   }
 
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

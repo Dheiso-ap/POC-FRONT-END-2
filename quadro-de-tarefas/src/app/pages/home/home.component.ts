@@ -3,7 +3,7 @@ import { CardsComponent } from '../../components/cards/cards.component';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Card } from '../../models/card.interface';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DialogoConfirmarComponent } from '../../components/dialogo-confirmar/dialogo-confirmar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormularioComponent } from "../../components/formulario/formulario.component";
@@ -17,8 +17,7 @@ import { FormularioComponent } from "../../components/formulario/formulario.comp
     CardsComponent,
     MatDialogModule,
     MatButtonModule,
-    DialogoConfirmarComponent,
-    FormularioComponent
+    DialogoConfirmarComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -27,7 +26,6 @@ export class HomeComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  showForm = false;
   selectedCard: Card | null = null;
 
   listaCardsFazer: Card[] = [
@@ -63,34 +61,41 @@ export class HomeComponent {
   listaCardsFeitos: Card[] = [];
 
   openForm(): void {
-    this.selectedCard = null;
-    this.showForm = true;
+    this.openFormDialog(null);
   }
 
   editCard(card: Card): void {
-    debugger;
-    this.selectedCard = { ...card };
-    this.showForm = true;
+    this.openFormDialog(card);
+  }
+
+  private openFormDialog(card: Card | null): void {
+    const dialogRef: MatDialogRef<FormularioComponent, Card> = this.dialog.open(FormularioComponent, {
+      width: '600px',
+      position: {top:'0', left: '50%'},
+      panelClass: 'alinha-centro',
+      data: { card: card ? { ...card } : null },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: Card | undefined) => {
+      if (result) {
+        this.handleFormSubmit(result);
+      }
+    });
   }
 
   handleFormSubmit(cardData: Card): void {
     if (cardData.id) {
-      // Atualizar card existente em qualquer lista
-      this.updateCardInLists(cardData);
+      this.atualizarCardNaLista(cardData);
     } else {
-      // Adicionar novo card na primeira lista (listaCardsFazer)
-      const newId = this.generateNewId();
-      this.listaCardsFazer.unshift({ ...cardData, id: newId });
+      const id = this.gerarNovoId();
+      this.listaCardsFazer.unshift({ ...cardData, id: id });
     }
-    
-    this.showForm = false;
-    this.selectedCard = null;
   }
 
-  private updateCardInLists(cardData: Card): void {
-    // Procura o card em todas as listas e atualiza onde encontrar
+  private atualizarCardNaLista(cardData: Card): void {
     const lists = [this.listaCardsFazer, this.listaCardsFazendo, this.listaCardsFeitos];
-    
+
     for (const list of lists) {
       const index = list.findIndex(c => c.id === cardData.id);
       if (index !== -1) {
@@ -100,20 +105,20 @@ export class HomeComponent {
     }
   }
 
-  private generateNewId(): number {
-    // Obtém todos os cards de todas as listas
+  private gerarNovoId(): number {
     const allCards = [
       ...this.listaCardsFazer,
       ...this.listaCardsFazendo,
       ...this.listaCardsFeitos
     ];
-    // Gera um novo ID baseado no maior ID existente + 1
     return Math.max(0, ...allCards.map(c => c.id || 0)) + 1;
   }
 
   openConfirmDialog(lista: Card[], index: number): void {
     const dialogRef = this.dialog.open(DialogoConfirmarComponent, {
       width: '300px',
+      position: {top:'0', left: '50%'},
+      panelClass: 'alinha-centro',
       data: { message: `Tem certeza que deseja excluir a tarefa?` },
     });
 
