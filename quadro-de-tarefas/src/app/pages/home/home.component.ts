@@ -7,6 +7,11 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { DialogoConfirmarComponent } from '../../components/dialogo-confirmar/dialogo-confirmar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormularioComponent } from "../../components/formulario/formulario.component";
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-home',
@@ -17,14 +22,16 @@ import { FormularioComponent } from "../../components/formulario/formulario.comp
     CardsComponent,
     MatDialogModule,
     MatButtonModule,
-    DialogoConfirmarComponent
+    DialogoConfirmarComponent, 
+    MatMenuModule, 
+    MatIconModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private router: Router) {}
 
   selectedCard: Card | null = null;
 
@@ -62,6 +69,10 @@ export class HomeComponent {
 
   openForm(): void {
     this.openFormDialog(null);
+  }
+
+  logout(): void{
+    this.router.navigate(['/login']);
   }
 
   editCard(card: Card): void {

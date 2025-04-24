@@ -1,73 +1,59 @@
 <header>
-  <h1>Quadro de tarefas</h1>
+    <h1>Quadro de tarefas</h1>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="menu-button">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" yPosition="below" xPosition="after">
+        <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+
 </header>
 
 <main>
-  <section class="area-lista">
-      <h2>TO-DO</h2>
-      <div cdkDropList
-          #lista1="cdkDropList"
-          [cdkDropListData]="listaCardsFazer"
-          [cdkDropListConnectedTo]="[lista2, lista3]"
-          (cdkDropListDropped)="onDrop($event)"
-          class="lista">
-          <div *ngFor="let card of listaCardsFazer; let i = index" cdkDrag>
-              <app-cards
-                  [titulo]="card.titulo"
-                  [data]="card.data"
-                  [descricao]="card.descricao"
-                  (delete)="openConfirmDialog(listaCardsFazer, i)"
-                  (edit)="editCard(card)">
-              </app-cards>
-          </div>
-      </div>
-  </section>
+    <section class="area-lista">
+        <h2>TO-DO</h2>
+        <div cdkDropList #lista1="cdkDropList" [cdkDropListData]="listaCardsFazer"
+            [cdkDropListConnectedTo]="[lista2, lista3]" (cdkDropListDropped)="onDrop($event)" class="lista">
+            <div *ngFor="let card of listaCardsFazer; let i = index" cdkDrag>
+                <app-cards [titulo]="card.titulo" [data]="card.data" [descricao]="card.descricao"
+                    (delete)="openConfirmDialog(listaCardsFazer, i)" (edit)="editCard(card)">
+                </app-cards>
+            </div>
+        </div>
+    </section>
 
-  <div class="divisoria"></div>
+    <div class="divisoria"></div>
 
-  <section class="area-lista">
-      <h2>DOING</h2>
-      <div cdkDropList
-          #lista2="cdkDropList"
-          [cdkDropListData]="listaCardsFazendo"
-          [cdkDropListConnectedTo]="[lista1, lista3]"
-          (cdkDropListDropped)="onDrop($event)"
-          class="lista">
-          <div *ngFor="let card of listaCardsFazendo; let i = index" cdkDrag>
-              <app-cards
-                  [titulo]="card.titulo"
-                  [data]="card.data"
-                  [descricao]="card.descricao"
-                  (delete)="openConfirmDialog(listaCardsFazendo, i)"
-                  (edit)="editCard(card)">
-              </app-cards>
-          </div>
-      </div>
-  </section>
+    <section class="area-lista">
+        <h2>DOING</h2>
+        <div cdkDropList #lista2="cdkDropList" [cdkDropListData]="listaCardsFazendo"
+            [cdkDropListConnectedTo]="[lista1, lista3]" (cdkDropListDropped)="onDrop($event)" class="lista">
+            <div *ngFor="let card of listaCardsFazendo; let i = index" cdkDrag>
+                <app-cards [titulo]="card.titulo" [data]="card.data" [descricao]="card.descricao"
+                    (delete)="openConfirmDialog(listaCardsFazendo, i)" (edit)="editCard(card)">
+                </app-cards>
+            </div>
+        </div>
+    </section>
 
-  <div class="divisoria"></div>
+    <div class="divisoria"></div>
 
-  <section class="area-lista">
-      <h2>DONE</h2>
-      <div cdkDropList
-          #lista3="cdkDropList"
-          [cdkDropListData]="listaCardsFeitos"
-          [cdkDropListConnectedTo]="[lista1, lista2]"
-          (cdkDropListDropped)="onDrop($event)"
-          class="lista">
-          <div *ngFor="let card of listaCardsFeitos; let i = index" cdkDrag>
-              <app-cards
-                  [titulo]="card.titulo"
-                  [data]="card.data"
-                  [descricao]="card.descricao"
-                  (delete)="openConfirmDialog(listaCardsFeitos, i)"
-                  (edit)="editCard(card)">
-              </app-cards>
-          </div>
-      </div>
-  </section>
+    <section class="area-lista">
+        <h2>DONE</h2>
+        <div cdkDropList #lista3="cdkDropList" [cdkDropListData]="listaCardsFeitos"
+            [cdkDropListConnectedTo]="[lista1, lista2]" (cdkDropListDropped)="onDrop($event)" class="lista">
+            <div *ngFor="let card of listaCardsFeitos; let i = index" cdkDrag>
+                <app-cards [titulo]="card.titulo" [data]="card.data" [descricao]="card.descricao"
+                    (delete)="openConfirmDialog(listaCardsFeitos, i)" (edit)="editCard(card)">
+                </app-cards>
+            </div>
+        </div>
+    </section>
 </main>
 
 <footer>
-  <button mat-raised-button color="primary" (click)="openForm()">Adicionar Novo Card</button>
+    <button mat-raised-button color="primary" id="btn-add" (click)="openForm()">
+        <i class="material-icons">add_circle</i>
+    </button>
 </footer>
